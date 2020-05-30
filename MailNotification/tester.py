@@ -1,5 +1,10 @@
 from MailHandler import MailHandler
 
 mh = MailHandler(587, 'smtp.gmail.com', 'noreply.PSN.Checker@gmail.com', 'Psn12345')
-text, html = mh.returnTemplateInvitation('anon')
-mh.send('szachkonrad@op.pl', 'test', text, html)
+mh.sendInvitation('Anon', 'szachkonrad@op.pl')
+
+gry = ['gra 1', 'gra 2', 'gra 3', 'gra 4']
+ceny = ['11.11', '22.22', '33.33', '44.44']
+linki = ['https://www.google.com/', 'https://www.allegro.pl', 'https://www.olx.pl', 'https://www.facebook.com']
+
+mh.sendDiscount('Anon', 'szachkonrad@op.pl', gry, ceny, linki)

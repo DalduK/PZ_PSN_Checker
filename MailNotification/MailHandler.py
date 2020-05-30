@@ -37,6 +37,14 @@ class MailHandler:
             print(e)
             return False
 
+    def sendInvitation(self, username, receiver_email):
+        text, html = self.returnTemplateInvitation(username)
+        self.send(receiver_email, 'Welcome in PSN Checker app!', text, html)
+
+    def sendDiscount(self, username, receiver_email, gameNames, prices, urls):
+        text, html = self.returnTemplateDiscount(username, gameNames, prices, urls)
+        self.send(receiver_email, 'Your games are on sale!', text, html)
+
     def returnTemplateInvitation(self, username):
         text = """\
                 Hi {0},
@@ -55,3 +63,31 @@ class MailHandler:
                 </html>
                 """.format(username)
         return text, html
+
+    def returnTemplateDiscount(self, username, gameNames, prices, urls):
+        if (len(gameNames) == len(prices)) & (len(prices) == len(urls)):
+            textTmp = ''
+            for i in range(0, len(gameNames)):
+                textTmp = textTmp + gameNames[i] + "\t" + prices[i] + "$\t" + urls[i] + "\n"
+
+            text = """\
+                            Hi {0},
+                            PSN Checker found game discounts for you:
+                            {1}""".format(username, textTmp)
+
+            htmlTmp = ''
+            for i in range(0, len(gameNames)):
+                htmlTmp = htmlTmp + '<a href="' + urls[i] + '">' + gameNames[i] + '</a>\t' + prices[i] + "$<br>"
+            html = """\
+                            <html>
+                              <body>
+                                <p>Hi {0},<br>
+                                   PSN Checker found game discounts for you:<br>
+                                   {1}
+                                </p>
+                              </body>
+                            </html>
+                            """.format(username, htmlTmp)
+            return text, html
+        else:
+            raise Exception('Invalid function variables')
