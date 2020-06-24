@@ -9,7 +9,12 @@ PLATFORMS = [('', ''), ('PS3', 'PlayStation 3'), ('PS4', 'PlayStation 4'), ('PSV
 class ItemForm(forms.Form):
     item_title = forms.CharField(label='Item title', max_length=100)
     item_price = forms.FloatField(label='Price')
+    image = forms.CharField(label='Item image', max_length=250)
     platform = forms.ChoiceField(choices=PLATFORMS)
+
+
+class ItemFromURL(forms.Form):
+    item_url = forms.CharField(label='Item URL', max_length=250)
 
 
 class RegistrationForm(UserCreationForm):

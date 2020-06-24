@@ -5,6 +5,12 @@
     <title>Home</title>
 </head>
 <body>
-Hello world!
+{% for item in items %}
+    <h4 class="blue-text">
+        <strong>
+            ${{ item.price }}
+        </strong>
+    </h4>
+{% endfor %}
 </body>
 </html>
