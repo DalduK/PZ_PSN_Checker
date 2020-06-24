@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+{% for item in items %}
+    <h4 class="blue-text">
+        <strong>
+            ${{ item.price }}
+        </strong>
+    </h4>
+{% endfor %}
+</body>
+</html>
