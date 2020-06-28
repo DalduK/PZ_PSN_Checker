@@ -1,14 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add an item</title>
-</head>
-<body>
-<form action="/createitemurl/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
-</form>
-</body>
-</html>
+{% extends request.user.is_authenticated|yesno:'loged_in_base.html,base.html' %}
+{% block content %}
+
+<div class="card">
+
+  <!-- Card image -->
+  <a href="https://store.playstation.com/pl-pl/home/games" target="_blank">
+      <img class="card-img-top" src="https://store.playstation.com/img/ps-store-bag.svg" alt="Card image cap" width="500" height="500">
+  </a>
+
+  <!-- Card content -->
+  <div class="card-body">
+
+    <!-- Title -->
+    <h4 class="card-title text-center"><a>Add game from PStore</a></h4>
+    <!-- Text -->
+    <p class="card-text text-center">Insert link of a game that you want to add to database </p>
+      <form action="/createitemurl/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input class="btn btn-md btn-info m-0 px-3" type="submit" value="Submit">
+    </form>
+    <!-- Button -->
+
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 {% extends request.user.is_authenticated|yesno:'loged_in_base.html,base.html' %}
-
+{% block content %}
     <div class="d-flex justify-content-center">
     <form method="post" class="text-justify text-center border border-light p-5" action="#!">
 
