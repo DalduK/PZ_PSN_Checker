@@ -4,14 +4,23 @@
     <meta charset="UTF-8">
     <title>Register</title>
 </head>
-<body>
+{% extends 'base.html' %}
 {% block content %}
-    <h2>Sign up</h2>
-    <form method="post">
+    <div class="d-flex justify-content-center">
+    <form method="post" class="text-justify text-center border border-light p-5" action="#!">
+
+
+        <p class="h4 mb-4">Sign up</p>
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Sign up</button>
+        <!-- Sign in button -->
+        <button class="btn btn-info btn-block my-4" type="submit">Sign up</button>
+
+        <!-- Register -->
+        <p>Already a member ?
+            <a href="/login/">Login</a>
+        </p>
     </form>
+</div>
 {% endblock %}
-</body>
 </html>

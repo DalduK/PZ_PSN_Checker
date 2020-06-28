@@ -85,8 +85,9 @@ def add_item_from_url(request):
             if len(qp) == 0 or qp[0].date_fetched < datetime.now(timezone.utc):
                 history = ItemPrice()
                 history.item_id = q
+                print(data["default_sku"])
                 if len(data["default_sku"]["rewards"]) == 0:
-                    history.historical_price.price = data["default_sku"]["price"] / 100
+                    history.historical_price = data["default_sku"]["price"] / 100
                 else:
                     history.historical_price = data["default_sku"]["rewards"][0]["price"] / 100
                 history.save()
