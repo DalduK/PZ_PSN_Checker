@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
-{% extends 'base.html' %}
-{% block content %}
+{% extends request.user.is_authenticated|yesno:'loged_in_base.html,base.html' %}
+
     <div class="d-flex justify-content-center">
     <form method="post" class="text-justify text-center border border-light p-5" action="#!">
 
@@ -23,4 +17,3 @@
     </form>
 </div>
 {% endblock %}
-</html>

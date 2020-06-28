@@ -2,7 +2,7 @@ import json
 import urllib.request
 from datetime import datetime, timezone
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
 
@@ -123,3 +123,6 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
