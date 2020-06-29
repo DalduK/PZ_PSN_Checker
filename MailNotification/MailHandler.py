@@ -57,7 +57,7 @@ class MailHandler:
                     <p>Hi {0},<br>
                        Welcome in PSN Checker app!<br>
                        Click <a href="psnchecker.com">here</a> 
-                       to set your account preferences.
+                       to set your basket.
                     </p>
                   </body>
                 </html>
@@ -68,16 +68,16 @@ class MailHandler:
         if (len(gameNames) == len(prices)) & (len(prices) == len(urls)):
             textTmp = ''
             for i in range(0, len(gameNames)):
-                textTmp = textTmp + gameNames[i] + "\t" + prices[i] + "$\t" + urls[i] + "\n"
+                textTmp = textTmp + gameNames[i] + "\t" + prices[i] + "$\n"
 
             text = """\
                             Hi {0},
                             PSN Checker found game discounts for you:
                             {1}""".format(username, textTmp)
 
-            htmlTmp = ''
+            htmlTmp = '<br><br>'
             for i in range(0, len(gameNames)):
-                htmlTmp = htmlTmp + '<a href="' + urls[i] + '">' + gameNames[i] + '</a>\t' + prices[i] + "$<br>"
+                htmlTmp = htmlTmp + gameNames[i] + '</a>\t' + prices[i] + "$ <br>" + '<img src="' + urls[i] + '" />'+"<br><br>"
             html = """\
                             <html>
                               <body>
