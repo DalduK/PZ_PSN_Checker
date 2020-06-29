@@ -2,6 +2,7 @@
 {% extends request.user.is_authenticated|yesno:'loged_in_base.html,base.html' %}
 
 {% block content %}
-
+    <H1>{{ user.get_username }}</H1>
+    <H2>{{ user.email }}</H2>
 {% endblock %}
 
