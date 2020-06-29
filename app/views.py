@@ -1,18 +1,18 @@
-import json
-import urllib.request
 from datetime import datetime, timezone
+
 import requests
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
-from django.views.generic import TemplateView
+from plotly.graph_objs import Scatter
+from plotly.offline import plot
 
 from .forms import ItemForm, RegistrationForm, ItemFromURL
 from .models import Item, ItemPrice, BasketItem, Carousel
 
-from plotly.offline import plot
-from plotly.graph_objs import Scatter
+
 # Create your views here.
 
 
@@ -127,6 +127,23 @@ def item_list(request):
         "items": numbers
     }
     return render(request, "home-page.html", context)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {
+        'form': form
+    })
 
 
 def user_watched(request):
