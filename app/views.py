@@ -73,10 +73,14 @@ def add_item_from_url(request):
                     item.price = data["default_sku"]["price"] / 100
                 else:
                     item.price = data["default_sku"]["rewards"][0]["price"] / 100
+                    item.onsale = True
                 item.platform = platform
                 item.image = data["images"][0]["url"]
                 item.age_rating = data["age_limit"]
                 item.ps_id = url
+                item.description = data["long_desc"]
+                item.tag = data["attributes"]["facets"]["genre"][0]["name"]
+                item.trailer_url = data["mediaList"]["previews"][0]["url"]
                 item.save()
                 q = Item.objects.filter(title__iexact=title, platform__exact=platform)
             q = q[0]
@@ -94,7 +98,7 @@ def add_item_from_url(request):
                 history.save()
                 q.price = history.historical_price
                 q.save()
-            return HttpResponseRedirect(reverse('base'))
+            return HttpResponseRedirect(reverse('items'))
     else:
         form = ItemFromURL()
     return render(request, 'items/itemURLform.html', {'form': form})
@@ -136,6 +140,7 @@ def register(request):
 def logout_view(request):
     logout(request)
 
+
 def object_specific_view(request, oid): # The url argument oid is automatically supplied by Django as we defined it carefully in our urls.py
     object = Item.objects.filter(item_id=oid).first()
     prices = ItemPrice.objects.filter(item_id_id=oid).all()
@@ -144,16 +149,13 @@ def object_specific_view(request, oid): # The url argument oid is automatically 
     for i in prices:
         price_list.append(i.historical_price)
         price_data.append(i.date_fetched)
-        print(type(i.date_fetched))
-    print(price_list)
-    print(price_data)
     plt = plot([Scatter(x=price_data, y=price_list,
                         opacity=0.8, marker_color='purple')],
                output_type='div', config={'displayModeBar': False}, include_plotlyjs=False)
-    context={
-        'object':object,
-        'plt':plt,
-        'x':price_list,
+    context= {
+        'object': object,
+        'plt': plt,
+        'x': price_list,
         'y': price_data
     }
 

@@ -9,7 +9,7 @@ PLATFORMS = [('', ''), ('PS3', 'PlayStation 3'), ('PS4', 'PlayStation 4'), ('PSV
 
 class Item(models.Model):
     item_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100)
+    title = models.SlugField(blank=False)
     price = models.FloatField(null=True)
     platform = models.CharField(max_length=3, choices=PLATFORMS, default=' ')
     ps_id = models.CharField(max_length=50, blank=True)
@@ -17,7 +17,7 @@ class Item(models.Model):
     age_rating = models.IntegerField(default=99)
     trailer_url = models.SlugField(blank=True)
     onsale = models.BooleanField(default=False)
-    tag = models.CharField(null=True, blank=True)
+    tag = models.SlugField(null=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -40,3 +40,6 @@ class BasketItem(models.Model):
     basket = models.ForeignKey(Basket, null=True, blank=True, on_delete=models.CASCADE)
     item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
 
+
+class Carousel(models.Model):
+    image_url = models.SlugField()
