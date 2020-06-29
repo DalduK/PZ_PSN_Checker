@@ -6,10 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
+    <title>PlayStation network price checker</title>
     <!-- Font Awesome -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap tooltips -->
@@ -18,6 +17,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
@@ -83,10 +84,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="user/">{{ user.get_username }}</a>
+                    <a class="nav-link waves-effect" href="/user/">{{ user.get_username }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="createitemurl/">Add game</a>
+                    <a class="nav-link waves-effect" href="/createitemurl/">Add game</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link"
@@ -98,27 +99,10 @@
                   {% csrf_token %}
                   <input type="hidden">
                 </form>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link waves-effect"-->
-<!--                       href="https://mdbootstrap.com/docs/jquery/getting-started/download/"-->
-<!--                       target="_blank">Free download</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/"-->
-<!--                       target="_blank">Free-->
-<!--                        tutorials</a>-->
-<!--                </li>-->
             </ul>
 
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item">
-                    <a class="nav-link waves-effect">
-                        <span class="badge red z-depth-1 mr-1"> 1 </span>
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a href="https://github.com/DalduK/PZ_PSN_Checker"
                        class="nav-link border border-light rounded waves-effect"
@@ -133,11 +117,8 @@
     </div>
 </nav>
 <!-- Navbar -->
-
-<div class="row d-flex justify-content-center">
         {% block content %}
         {% endblock content %}
-</div>
 <!--Footer-->
 <footer class="page-footer text-center font-small mt-4 wow fadeIn">
 

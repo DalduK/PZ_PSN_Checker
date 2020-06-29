@@ -1,16 +1,18 @@
 import json
 import urllib.request
 from datetime import datetime, timezone
+import requests
 from django.contrib.auth import login, authenticate, logout
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
-from plotly.graph_objs import Scatter
-from plotly.offline import plot
+from django.views.generic import TemplateView
 
 from .forms import ItemForm, RegistrationForm, ItemFromURL
 from .models import Item, ItemPrice
 
-
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
 # Create your views here.
 
 
@@ -59,10 +61,9 @@ def add_item_from_url(request):
         if form.is_valid():
             url = request.POST.get('item_url')
             url = url.split('/')[-1]
-            respone = urllib.request.urlopen(
+            resp= requests.get(
                 "https://store.playstation.com/store/api/chihiro/00_09_000/container/PL/pl/999/" + url)
-            page_source = respone.read()
-            data = json.loads(page_source)
+            data = resp.json()
             title = data["name"]
             platform = data["playable_platform"][0]
             q = Item.objects.filter(title__iexact=title, platform__exact=platform)
@@ -109,8 +110,17 @@ def base(request):
 
 
 def item_list(request):
+    numbers_list = Item.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(numbers_list, 12)
+    try:
+        numbers = paginator.page(page)
+    except PageNotAnInteger:
+        numbers = paginator.page(1)
+    except EmptyPage:
+        numbers = paginator.page(paginator.num_pages)
     context = {
-        "items": Item.objects.all()
+        "items": numbers
     }
     return render(request, "home-page.html", context)
 

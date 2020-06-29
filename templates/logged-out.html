@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="row d-flex justify-content-center">
 <div class="card card-cascade narrower mb-4">
 
                   <!-- Card image -->
@@ -14,17 +15,20 @@
                   <div class="card-body card-body-cascade">
 
                     <!-- Label -->
-                    <h5 class="text-center pink-text pb-2 pt-1">Congratulations</h5>
+                    <h5 class="text-center text-primary pb-2 pt-1">Congratulations</h5>
                     <!-- Title -->
                     <h4 class="text-center card-title">You logged out !</h4>
                     <!-- Text -->
                     <p class="card-text">You can try to login again, create new account, or just comeback to home screen.</p>
                     <!-- Button -->
-                      <a class="btn btn-unique waves-effect waves-light" href="/login/">Login</a>
-                      <a class="btn btn-unique waves-effect waves-light" href="/register/">Create account</a>
-                      <a class="btn btn-unique waves-effect waves-light" href="/items/">Home</a>
+                      <div class="row d-flex justify-content-center">
+                      <a class="btn w-50 btn-primary" href="/login/">Login</a>
+                      <a class="btn w-50 btn-primary" href="/register/">Create account</a>
+                      <a class="btn w-50 btn-primary" href="/items/">Home</a>
+                      </div>
 
                   </div>
 
                 </div>
+</div>
 {% endblock %}
