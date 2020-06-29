@@ -1,17 +1,16 @@
 import json
 import urllib.request
 from datetime import datetime, timezone
-
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
-from django.views.generic import TemplateView
+from plotly.graph_objs import Scatter
+from plotly.offline import plot
 
 from .forms import ItemForm, RegistrationForm, ItemFromURL
 from .models import Item, ItemPrice
 
-from plotly.offline import plot
-from plotly.graph_objs import Scatter
+
 # Create your views here.
 
 
@@ -111,11 +110,12 @@ def item_list(request):
     }
     return render(request, "home-page.html", context)
 
+
 def user(request):
     context = {
         "items": Item.objects.all()
     }
-    return render(request,'user.html')
+    return render(request, 'user.html')
 
 
 def register(request):
@@ -127,10 +127,11 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return HttpResponseRedirect(reverse('base'))
+            return HttpResponseRedirect(reverse('items'))
     else:
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 def logout_view(request):
     logout(request)

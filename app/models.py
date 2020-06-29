@@ -1,9 +1,5 @@
-
 from django.conf import settings
 from django.db import models
-from django.db import models
-from django.conf import settings
-from django.utils import timezone
 
 # Create your models here.
 
@@ -17,8 +13,12 @@ class Item(models.Model):
     price = models.FloatField(null=True)
     platform = models.CharField(max_length=3, choices=PLATFORMS, default=' ')
     ps_id = models.CharField(max_length=50, blank=True)
-    image = models.CharField(max_length=250, blank=True)
+    image = models.SlugField(blank=True)
     age_rating = models.IntegerField(default=99)
+    trailer_url = models.SlugField(blank=True)
+    onsale = models.BooleanField(default=False)
+    tag = models.CharField(null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -34,6 +34,7 @@ class Basket(models.Model):
     basket_title = models.CharField(max_length=100, blank=True, null=True)
     basket_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     total = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+
 
 class BasketItem(models.Model):
     basket = models.ForeignKey(Basket, null=True, blank=True, on_delete=models.CASCADE)
