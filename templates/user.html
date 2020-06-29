@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+{% extends request.user.is_authenticated|yesno:'loged_in_base.html,base.html' %}
+
+{% block content %}
+
+{% endblock %}
+

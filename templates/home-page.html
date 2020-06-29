@@ -68,7 +68,7 @@
 
                                     <img src="{{ item.image }}" class="card-img-top"
                                          alt="">
-                                    <a>
+                                    <a href="/objects/{{ item.item_id }}">
                                         <div class="mask rgba-white-slight"></div>
                                     </a>
                                 </div>
@@ -77,12 +77,12 @@
                                 <!--Card content-->
                                 <div class="card-body text-center">
                                     <!--Category & Title-->
-                                    <a href="" class="grey-text">
+                                    <a href="/objects/{{ item.item_id }}" class="grey-text">
                                         <h5>{{ item.platform }}</h5>
                                     </a>
                                     <h5>
                                         <strong>
-                                            <a href="" class="dark-grey-text">{{ item.title }}
+                                            <a href="/objects/{{ item.item_id }}" class="dark-grey-text">{{ item.title }}
                                                 {% if item.age_rating < 12 %}
                                                     <span class="badge badge-pill green">{{ item.age_rating }}</span>
                                                 {% elif item.age_rating > 16 %}

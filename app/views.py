@@ -5,11 +5,13 @@ from datetime import datetime, timezone
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
+from django.views.generic import TemplateView
 
 from .forms import ItemForm, RegistrationForm, ItemFromURL
 from .models import Item, ItemPrice
 
-
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
 # Create your views here.
 
 
@@ -109,6 +111,12 @@ def item_list(request):
     }
     return render(request, "home-page.html", context)
 
+def user(request):
+    context = {
+        "items": Item.objects.all()
+    }
+    return render(request,'user.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -126,3 +134,26 @@ def register(request):
 
 def logout_view(request):
     logout(request)
+
+def object_specific_view(request, oid): # The url argument oid is automatically supplied by Django as we defined it carefully in our urls.py
+    object = Item.objects.filter(item_id=oid).first()
+    prices = ItemPrice.objects.filter(item_id_id=oid).all()
+    price_list = []
+    price_data = []
+    for i in prices:
+        price_list.append(i.historical_price)
+        price_data.append(i.date_fetched)
+        print(type(i.date_fetched))
+    print(price_list)
+    print(price_data)
+    plt = plot([Scatter(x=price_data, y=price_list,
+                        opacity=0.8, marker_color='purple')],
+               output_type='div', config={'displayModeBar': False}, include_plotlyjs=False)
+    context={
+        'object':object,
+        'plt':plt,
+        'x':price_list,
+        'y': price_data
+    }
+
+    return render(request, "product-page.html", context)
