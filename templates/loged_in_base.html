@@ -99,27 +99,10 @@
                   {% csrf_token %}
                   <input type="hidden">
                 </form>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link waves-effect"-->
-<!--                       href="https://mdbootstrap.com/docs/jquery/getting-started/download/"-->
-<!--                       target="_blank">Free download</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/"-->
-<!--                       target="_blank">Free-->
-<!--                        tutorials</a>-->
-<!--                </li>-->
             </ul>
 
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item">
-                    <a class="nav-link waves-effect">
-                        <span class="badge red z-depth-1 mr-1"> 1 </span>
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a href="https://github.com/DalduK/PZ_PSN_Checker"
                        class="nav-link border border-light rounded waves-effect"
@@ -134,11 +117,8 @@
     </div>
 </nav>
 <!-- Navbar -->
-
-<div class="row d-flex justify-content-center">
         {% block content %}
         {% endblock content %}
-</div>
 <!--Footer-->
 <footer class="page-footer text-center font-small mt-4 wow fadeIn">
 
