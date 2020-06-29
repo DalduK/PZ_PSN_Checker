@@ -30,14 +30,15 @@ class ItemPrice(models.Model):
     date_fetched = models.DateTimeField(auto_now_add=True)
 
 
-class Basket(models.Model):
-    basket_title = models.CharField(max_length=100, blank=True, null=True)
-    basket_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
-    total = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+#
+# class Basket(models.Model):
+#     basket_title = models.CharField(max_length=100, blank=True, null=True)
+#     basket_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+#     total = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
 
 class BasketItem(models.Model):
-    basket = models.ForeignKey(Basket, null=True, blank=True, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
     item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 

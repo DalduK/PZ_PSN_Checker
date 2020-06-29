@@ -1,18 +1,17 @@
-import json
-import urllib.request
 from datetime import datetime, timezone
+
 import requests
 from django.contrib.auth import login, authenticate, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
-from django.views.generic import TemplateView
+from plotly.graph_objs import Scatter
+from plotly.offline import plot
 
 from .forms import ItemForm, RegistrationForm, ItemFromURL
-from .models import Item, ItemPrice
+from .models import Item, ItemPrice, BasketItem
 
-from plotly.offline import plot
-from plotly.graph_objs import Scatter
+
 # Create your views here.
 
 
@@ -33,8 +32,6 @@ def add_item(request):
                 q = Item.objects.filter(title__iexact=title, platform__exact=platform)
             q = q[0]
             qp = ItemPrice.objects.filter(item_id__exact=q.item_id).order_by('-date_fetched')
-            if len(qp) > 0:
-                print(qp[0].date_fetched)
             if len(qp) == 0 or qp[0].date_fetched < datetime.now(timezone.utc):
                 history = ItemPrice()
                 history.item_id = q
@@ -51,7 +48,8 @@ def add_item(request):
 
 """
 https://store.playstation.com/pl-pl/product/EP0896-CUSA19567_00-RGSUMMERSHIBAINU
-https://store.playstation.com/store/api/chihiro/00_09_000/container/PL/pl/999/EP4133-CUSA17438_00-SNOWRUNNERGAME00
+https://store.playstation.com/pl-pl/product/EP8062-CUSA20191_00-3001199027585589
+https://store.playstation.com/store/api/chihiro/00_09_000/container/PL/pl/999/EP8062-CUSA20191_00-3001199027585589
 """
 
 
@@ -80,18 +78,15 @@ def add_item_from_url(request):
                 item.age_rating = data["age_limit"]
                 item.ps_id = url
                 item.description = data["long_desc"]
-                item.tag = data["attributes"]["facets"]["genre"][0]["name"]
+                item.tag = data["metadata"]["game_genre"]["values"][0]
                 item.trailer_url = data["mediaList"]["previews"][0]["url"]
                 item.save()
                 q = Item.objects.filter(title__iexact=title, platform__exact=platform)
             q = q[0]
             qp = ItemPrice.objects.filter(item_id__exact=q.item_id).order_by('-date_fetched')
-            if len(qp) > 0:
-                print(qp[0].date_fetched)
             if len(qp) == 0 or qp[0].date_fetched < datetime.now(timezone.utc):
                 history = ItemPrice()
                 history.item_id = q
-                print(data["default_sku"])
                 if len(data["default_sku"]["rewards"]) == 0:
                     history.historical_price = data["default_sku"]["price"] / 100
                 else:
@@ -121,6 +116,24 @@ def item_list(request):
         numbers = paginator.page(paginator.num_pages)
     context = {
         "items": numbers
+    }
+    return render(request, "home-page.html", context)
+
+
+def user_watched(request):
+    titles = []
+    id_list = set()
+    current_user = request.user
+    user_titles = BasketItem.objects.filter(user_id__exact=current_user.id)
+    for title_id in user_titles:
+        id_list.add(title_id.item_id.item_id)
+
+    for title_id in id_list:
+        q = Item.objects.filter(item_id__exact=title_id)
+        for i in q:
+            titles.append(i)
+    context = {
+        "items": titles
     }
     return render(request, "home-page.html", context)
 

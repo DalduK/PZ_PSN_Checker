@@ -14,12 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import path, include
+from django.urls import path
 
-from PZ_PSN_Checker import settings
 from app import views
 from templates import *
 
@@ -34,4 +32,6 @@ urlpatterns = [
     path('items/', views.item_list, name='items'),
     path('user/', views.user, name='user'),
     url(r'^objects/(?P<oid>[0-9]+)/$', views.object_specific_view, name='objects'),
+    path('useri/', views.user_watched, name='useri'),
+
 ]
