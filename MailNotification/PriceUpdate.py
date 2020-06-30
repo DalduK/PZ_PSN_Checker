@@ -30,7 +30,7 @@ def update_values(conn):
         # price = 1000.00
         sql_insert = '''INSERT INTO app_itemprice(item_id_id,historical_price,date_fetched) values(?,?,?)'''
         cur = conn.cursor()
-        now = datetime.now()
+        now = datetime.utcnow()
         cur.execute(sql_insert,(val[0],price,now))
         conn.commit()
         cur = conn.cursor()

@@ -106,7 +106,7 @@ def add_item_from_url(request):
             qp = ItemPrice.objects.filter(item_id__exact=q.item_id).order_by('-date_fetched')
             if len(qp) > 0:
                 print(qp[0].date_fetched)
-            if len(qp) == 0 or qp[0].date_fetched < datetime.now(timezone.utc):
+            if len(qp) == 0 or qp[0].date_fetched < datetime.utcnow():
                 history = ItemPrice()
                 history.item_id = q
                 print(data["default_sku"])
