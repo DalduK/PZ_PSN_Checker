@@ -12,6 +12,7 @@ from django.shortcuts import render, reverse, redirect
 from plotly.graph_objs import Scatter
 from plotly.offline import plot
 
+from MailNotification.MailHandler import MailHandler
 from .forms import ItemForm, RegistrationForm, ItemFromURL
 from .models import Item, ItemPrice, BasketItem, Carousel
 
@@ -193,6 +194,7 @@ def user(request):
 
 
 def register(request):
+    mh = MailHandler(587, 'smtp.gmail.com', 'noreply.PSN.Checker@gmail.com', 'Psn12345')
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -200,6 +202,9 @@ def register(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            print(username)
+            print(user.email)
+            mh.sendInvitation(username, user.email)
             login(request, user)
             return HttpResponseRedirect(reverse('items'))
     else:
