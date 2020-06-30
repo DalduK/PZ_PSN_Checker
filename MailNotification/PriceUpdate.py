@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import date, datetime
 from MailNotification.MailHandler import MailHandler
-
+from apscheduler.schedulers.blocking import BlockingScheduler
 import requests
 
 def create_conn():
@@ -83,7 +83,11 @@ def sendDiscountEmails(conn, list_of_discounts):
     conn.close()
 
 
+def app():
+    con = create_conn()
+    list_of_discounts = update_values(con)
+    sendDiscountEmails(con, list_of_discounts)
 
-con = create_conn()
-list_of_discounts = update_values(con)
-sendDiscountEmails(con, list_of_discounts)
+scheduler = BlockingScheduler()
+scheduler.add_job(app, 'interval', hours=1)
+scheduler.start()
