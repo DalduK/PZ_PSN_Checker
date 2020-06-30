@@ -24,13 +24,7 @@
 
                     <div class="mb-3">
                         <a href="">
-                            <span class="badge purple mr-1">Category 2</span>
-                        </a>
-                        <a href="">
-                            <span class="badge blue mr-1">New</span>
-                        </a>
-                        <a href="">
-                            <span class="badge red mr-1">Bestseller</span>
+                            <span class="badge purple mr-1">{{object.tag}}</span>
                         </a>
                     </div>
 
@@ -44,7 +38,7 @@
                     <p class="lead font-weight-bold">{{ object.title }}</p>
 
                     <p>
-                        Przygotuj się na nowe off-roadowe wrażenia! <br><br>W niezwykle realistycznym symulatorze SnowRunner możesz usiąść za kierownicą potężnych pojazdów i zmierzyć się z najbardziej ekstremalnymi warunkami otoczenia. Kieruj 40 pojazdami marek takich jak Ford, Chevrolet oraz Freightliner i eksploruj dziewiczy otwarty świat.
+                        {{ object.description}}
                     </p>
                     <form class="d-flex justify-content-left">
                         <!-- Default input -->
@@ -55,8 +49,8 @@
                         </form>
                         {% endif %}
                         <!-- Button trigger modal-->
+                        <a href="https://store.playstation.com/pl-pl/product/{{object.ps_id}}" class="btn btn-primary" target="_blank">Go to PStore</a>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalYT">See trailer</button>
-
                         <!--Modal: modalYT-->
                         <div class="modal fade" id="modalYT" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                           aria-hidden="true">

@@ -177,10 +177,12 @@ def object_specific_view(request, oid): # The url argument oid is automatically 
     if request.user.is_authenticated:
         if request.GET.get("id") != None:
             entry_id = int(request.GET.get("id"))
+            print(entry_id)
             basket = BasketItem()
             item = Item.objects.get(item_id=entry_id)
-            basket.item_id_id = item
-            basket.basket_id = request.user.id
+            basket.item_id = item
+            basket.user_id = request.user
+            basket.save()
     object = Item.objects.filter(item_id=oid).first()
     prices = ItemPrice.objects.filter(item_id_id=oid).all()
     price_list = []
