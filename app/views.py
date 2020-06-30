@@ -230,20 +230,43 @@ def object_specific_view(request, oid): # The url argument oid is automatically 
             basket = BasketItem.objects.filter(item_id=item, user_id=request.user)
             basket.delete()
     object = Item.objects.filter(item_id=oid).first()
-    prices = ItemPrice.objects.filter(item_id_id=oid).all()
-    price_list = []
-    price_data = []
-    for i in prices:
-        price_list.append(i.historical_price)
-        price_data.append(i.date_fetched)
-    plt = plot([Scatter(x=price_data, y=price_list,
-                        opacity=0.8, marker_color='purple')],
-               output_type='div', config={'displayModeBar': False}, include_plotlyjs=False)
-    context= {
-        'object': object,
-        'plt': plt,
-        'x': price_list,
-        'y': price_data
-    }
+    if object != None:
+        prices = ItemPrice.objects.filter(item_id_id=oid).all()
+        price_list = []
+        price_data = []
+        for i in prices:
+            price_list.append(i.historical_price)
+            price_data.append(i.date_fetched)
+        plt = plot([Scatter(x=price_data, y=price_list,
+                            opacity=0.8, marker_color='purple')],
+                   output_type='div', config={'displayModeBar': False}, include_plotlyjs=False)
+        context= {
+            'object': object,
+            'plt': plt,
+            'x': price_list,
+            'y': price_data
+        }
 
-    return render(request, "product-page.html", context)
+        return render(request, "product-page.html", context)
+    else:
+        items = Carousel.objects.all()
+        lista = []
+        for i in items:
+            lista.append(i.image_url)
+        random_items = random.sample(lista, 3)
+        numbers_list = Item.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(numbers_list, 12)
+        try:
+            numbers = paginator.page(page)
+        except PageNotAnInteger:
+            numbers = paginator.page(1)
+        except EmptyPage:
+            numbers = paginator.page(paginator.num_pages)
+        context = {
+            "carousel1": random_items[0],
+            "carousel2": random_items[1],
+            "carousel3": random_items[2],
+            "items": numbers
+        }
+        return render(request, "home-page.html", context)
