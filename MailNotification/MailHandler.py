@@ -68,7 +68,7 @@ class MailHandler:
         if (len(gameNames) == len(prices)) & (len(prices) == len(urls)):
             textTmp = ''
             for i in range(0, len(gameNames)):
-                textTmp = textTmp + gameNames[i] + "\t" + prices[i] + "$\n"
+                textTmp = textTmp + gameNames[i] + "\t" + str(prices[i]) + "zł\n"
 
             text = """\
                             Hi {0},
@@ -77,7 +77,7 @@ class MailHandler:
 
             htmlTmp = '<br><br>'
             for i in range(0, len(gameNames)):
-                htmlTmp = htmlTmp + gameNames[i] + '</a>\t' + prices[i] + "$ <br>" + '<img src="' + urls[i] + '" />'+"<br><br>"
+                htmlTmp = htmlTmp + gameNames[i] + '</a>\t' + str(prices[i]) + "zł<br>" + '<img src="' + urls[i] + '" height = "400" width = "400" />'+"<br><br>"
             html = """\
                             <html>
                               <body>
