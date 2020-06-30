@@ -14,7 +14,10 @@ class ItemForm(forms.Form):
 
 
 class ItemFromURL(forms.Form):
-    item_url = forms.CharField(label='Item URL', max_length=250)
+    item_url = forms.CharField(label='URL gry', max_length=250)
+
+class Search(forms.Form):
+    szukaj = forms.CharField(label=False, max_length=250, required=False)
 
 
 class RegistrationForm(UserCreationForm):

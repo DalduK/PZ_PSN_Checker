@@ -86,6 +86,7 @@ def sendDiscountEmails(conn, list_of_discounts):
 def app():
     con = create_conn()
     list_of_discounts = update_values(con)
+    print(list_of_discounts)
     sendDiscountEmails(con, list_of_discounts)
 
 scheduler = BlockingScheduler()

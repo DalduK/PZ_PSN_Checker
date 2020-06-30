@@ -13,7 +13,7 @@ from plotly.graph_objs import Scatter
 from plotly.offline import plot
 
 from MailNotification.MailHandler import MailHandler
-from .forms import ItemForm, RegistrationForm, ItemFromURL
+from .forms import ItemForm, RegistrationForm, ItemFromURL, Search
 from .models import Item, ItemPrice, BasketItem, Carousel
 
 
@@ -62,6 +62,7 @@ https://store.playstation.com/store/api/chihiro/00_09_000/container/PL/pl/999/EP
 def add_item_from_url(request):
     if request.method == 'POST':
         form = ItemFromURL(request.POST)
+        print(form)
         if form.is_valid():
             url = request.POST.get('item_url')
             url = url.split('/')[-1]
@@ -128,27 +129,57 @@ def base(request):
 
 
 def item_list(request):
-    items = Carousel.objects.all()
-    lista = []
-    for i in items:
-        lista.append(i.image_url)
-    random_items = random.sample(lista, 3)
-    numbers_list = Item.objects.all()
-    page = request.GET.get('page', 1)
-    paginator = Paginator(numbers_list, 12)
-    try:
-        numbers = paginator.page(page)
-    except PageNotAnInteger:
-        numbers = paginator.page(1)
-    except EmptyPage:
-        numbers = paginator.page(paginator.num_pages)
-    context = {
-        "carousel1": random_items[0],
-        "carousel2": random_items[1],
-        "carousel3": random_items[2],
-        "items": numbers
-    }
-    return render(request, "home-page.html", context)
+    sr = Search(request.POST)
+    if request.method == 'POST':
+        if sr.is_valid():
+            ser = request.POST.get('szukaj')
+            print(ser)
+            items = Carousel.objects.all()
+            lista = []
+            for i in items:
+                lista.append(i.image_url)
+            random_items = random.sample(lista, 3)
+            numbers_list = Item.objects.filter(title__contains=ser)
+            page = request.GET.get('page', 1)
+            paginator = Paginator(numbers_list, 12)
+            try:
+                numbers = paginator.page(page)
+            except PageNotAnInteger:
+                numbers = paginator.page(1)
+            except EmptyPage:
+                numbers = paginator.page(paginator.num_pages)
+            context = {
+                "carousel1": random_items[0],
+                "carousel2": random_items[1],
+                "carousel3": random_items[2],
+                "items": numbers,
+                "form": sr
+            }
+            return render(request, "home-page.html", context)
+    else:
+        sr = Search(request.POST)
+        items = Carousel.objects.all()
+        lista = []
+        for i in items:
+            lista.append(i.image_url)
+        random_items = random.sample(lista, 3)
+        numbers_list = Item.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(numbers_list, 12)
+        try:
+            numbers = paginator.page(page)
+        except PageNotAnInteger:
+            numbers = paginator.page(1)
+        except EmptyPage:
+            numbers = paginator.page(paginator.num_pages)
+        context = {
+            "carousel1": random_items[0],
+            "carousel2": random_items[1],
+            "carousel3": random_items[2],
+            "items": numbers,
+            "form": sr
+        }
+        return render(request, "home-page.html", context)
 
 
 def change_password(request):
@@ -186,11 +217,11 @@ def user_watched(request):
     return render(request, "user.html", context)
 
 
-def user(request):
-    context = {
-        "items": Item.objects.all()
-    }
-    return render(request, 'user.html')
+# def user(request):
+#     context = {
+#         "items": Item.objects.all()
+#     }
+#     return render(request, 'user.html')
 
 
 def register(request):
