@@ -25,6 +25,13 @@
                     <div class="mb-3">
                         <a href="">
                             <span class="badge purple mr-1">{{object.tag}}</span>
+                            {% if object.age_rating < 12 %}
+                                                    <span class="badge badge-pill green">{{ object.age_rating }}</span>
+                                                {% elif object.age_rating > 16 %}
+                                                    <span class="badge badge-pill danger-color">{{ object.age_rating }}</span>
+                                                {% else %}
+                                                    <span class="badge badge-pill orange">{{ object.age_rating }}</span>
+                                                {% endif %}
                         </a>
                     </div>
 

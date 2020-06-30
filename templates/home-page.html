@@ -2,17 +2,11 @@
 
 
 {% block content %}
-    <!--Main layout-->
-    <main>
-
-            <!--/.Carousel Wrapper-->
-                <!--Carousel Wrapper-->
     <div class="row d-flex justify-content-center">
 <!--/.Carousel Wrapper-->
-
         <div class="container">
             <!--Carousel Wrapper-->
-<div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+            <div id="carousel-example-2" class="carousel slide carousel-fade " data-ride="carousel">
               <!--Indicators-->
               <ol class="carousel-indicators">
                 <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
@@ -24,37 +18,37 @@
               <div class="carousel-inner" role="listbox">
                 <div class="carousel-item active">
                   <div class="view">
-                    <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(68).jpg"
+                    <img class="d-block w-100" src="{{carousel1}}"
                       alt="First slide">
                     <div class="mask rgba-black-light"></div>
                   </div>
-                  <div class="carousel-caption">
-                    <h3 class="h3-responsive">Light mask</h3>
-                    <p>First text</p>
+                <div class="carousel-caption">
+                    <h3 class="h3-responsive">Dodawaj gry !</h3>
+                    <p>I sprawdzaj zmiany cen !</p>
                   </div>
                 </div>
                 <div class="carousel-item">
                   <!--Mask color-->
                   <div class="view">
-                    <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(6).jpg"
+                    <img class="d-block w-100" src="{{carousel2}}"
                       alt="Second slide">
-                    <div class="mask rgba-black-strong"></div>
+                    <div class="mask rgba-black-light"></div>
                   </div>
-                  <div class="carousel-caption">
-                    <h3 class="h3-responsive">Strong mask</h3>
-                    <p>Secondary text</p>
+                    <div class="carousel-caption">
+                    <h3 class="h3-responsive">Załóż konto !</h3>
+                    <p>I otrzymuj powiadomienia mailem !</p>
                   </div>
                 </div>
                 <div class="carousel-item">
                   <!--Mask color-->
                   <div class="view">
-                    <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(9).jpg"
+                    <img class="d-block w-100" src="{{carousel3}}"
                       alt="Third slide">
-                    <div class="mask rgba-black-slight"></div>
+                    <div class="mask rgba-black-light"></div>
                   </div>
-                  <div class="carousel-caption">
-                    <h3 class="h3-responsive">Slight mask</h3>
-                    <p>Third text</p>
+                    <div class="carousel-caption">
+                    <h3 class="h3-responsive">Sprawdzaj informacje !</h3>
+                    <p>I otrzymuj powiadomienia mailem !</p>
                   </div>
                 </div>
               </div>
@@ -203,6 +197,5 @@
             <!--Section: Products v.3-->
         </div>
     </div>
-    </main>
     <!--Main layout-->
 {% endblock content %}

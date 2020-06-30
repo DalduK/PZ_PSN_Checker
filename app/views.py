@@ -1,11 +1,14 @@
+import random
+import re
 from datetime import datetime, timezone
+from pyexpat.errors import messages
 
 import requests
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from plotly.graph_objs import Scatter
 from plotly.offline import plot
 
@@ -79,11 +82,25 @@ def add_item_from_url(request):
                 item.image = data["images"][0]["url"]
                 item.age_rating = data["age_limit"]
                 item.ps_id = url
-                item.description = data["long_desc"]
-                item.tag = data["attributes"]["facets"]["genre"][0]["name"]
-                item.trailer_url = data["mediaList"]["previews"][0]["url"]
+                str = data["long_desc"]
+                str1 = re.sub('<br.?>',' ', str)
+                st = str1.split('.')
+                ret = ''
+                for i in range(len(st)):
+                    if i < 4:
+                        print(i)
+                        ret = ret + st[i] + '.'
+                item.description = ret
+                item.tag = data["metadata"]["game_genre"]["values"][0]
+                try:
+                    item.trailer_url = data["mediaList"]["previews"][0]["url"]
+                except KeyError as e:
+                    item.trailer_url = data["mediaList"]["screenshots"][0]["url"]
                 item.save()
                 q = Item.objects.filter(title__iexact=title, platform__exact=platform)
+                car = Carousel()
+                car.image_url = data["mediaList"]["screenshots"][0]["url"]
+                car.save()
             q = q[0]
             qp = ItemPrice.objects.filter(item_id__exact=q.item_id).order_by('-date_fetched')
             if len(qp) > 0:
@@ -111,8 +128,10 @@ def base(request):
 
 def item_list(request):
     items = Carousel.objects.all()
-    # random_items = random.sample(items, 3)
-    # print(random_items)
+    lista = []
+    for i in items:
+        lista.append(i.image_url)
+    random_items = random.sample(lista, 3)
     numbers_list = Item.objects.all()
     page = request.GET.get('page', 1)
     paginator = Paginator(numbers_list, 12)
@@ -123,7 +142,9 @@ def item_list(request):
     except EmptyPage:
         numbers = paginator.page(paginator.num_pages)
     context = {
-        # "carousel": random_items,
+        "carousel1": random_items[0],
+        "carousel2": random_items[1],
+        "carousel3": random_items[2],
         "items": numbers
     }
     return render(request, "home-page.html", context)
