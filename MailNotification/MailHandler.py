@@ -45,6 +45,27 @@ class MailHandler:
         text, html = self.returnTemplateDiscount(username, gameNames, prices, urls)
         self.send(receiver_email, 'Your games are on sale!', text, html)
 
+    def sendChangedPassword(self, receiver_email, username, passwd):
+        text, html = self.returnTemplateChangedPassword(username, passwd)
+        self.send(receiver_email, 'Your password has been changed!',text, html)
+
+    def returnTemplateChangedPassword(self, username, passwd):
+        text = """\
+                Hi {0},
+                Your password on PSN Checker has been changed!
+                New password: {1}""".format(username, passwd)
+        html = """\
+                        <html>
+                          <body>
+                            <p>Hi {0},<br>
+                               Your password on PSN Checker has been changed!<br>
+                               New password: {1}
+                            </p>
+                          </body>
+                        </html>
+                        """.format(username, passwd)
+        return text, html
+
     def returnTemplateInvitation(self, username):
         text = """\
                 Hi {0},
