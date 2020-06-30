@@ -80,19 +80,19 @@
             <!-- Left -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/">Home
+                    <a class="nav-link waves-effect" href="/">Strona Główna
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/user/">{{ user.get_username }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/createitemurl/">Add game</a>
+                    <a class="nav-link waves-effect" href="/createitemurl/">Dodaj Grę</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link"
                     onClick="document.getElementById('logoutform').submit()">
-                    Logout
+                    Wyloguj się
                   </a>
                 </li>
                 <form id="logoutform" method="POST" action="/logout/">

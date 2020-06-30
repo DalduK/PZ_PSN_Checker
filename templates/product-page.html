@@ -43,14 +43,18 @@
                     <form class="d-flex justify-content-left">
                         <!-- Default input -->
                         {% if request.user.is_authenticated %}
-                        <form action="upvote" method="GET">
+                        <form method="GET">
                             <input type="hidden" type="hidden" name="id" value="{{ object.item_id }}">
-                            <button class="btn btn-primary" type="submit">Add to cart</button>
+                            <button class="btn btn-primary" type="submit">Dodaj do obserwowanych</button>
+                        </form>
+                        <form method="GET">
+                            <input type="hidden" type="hidden" name="id2" value="{{ object.item_id }}">
+                            <button class="btn btn-primary" type="submit">Usuń z obserwowanych</button>
                         </form>
                         {% endif %}
                         <!-- Button trigger modal-->
-                        <a href="https://store.playstation.com/pl-pl/product/{{object.ps_id}}" class="btn btn-primary" target="_blank">Go to PStore</a>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalYT">See trailer</button>
+                        <a href="https://store.playstation.com/pl-pl/product/{{object.ps_id}}" class="btn btn-primary" target="_blank">Idź do PStore</a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalYT">Zobacz trailer</button>
                         <!--Modal: modalYT-->
                         <div class="modal fade" id="modalYT" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                           aria-hidden="true">
@@ -72,7 +76,7 @@
                               <!--Footer-->
                                 <div class="d-flex justify-content-center">
                                 <button type="button" class="text-center btn btn-outline-primary btn-rounded btn-md"
-                                  data-dismiss="modal">Close</button>
+                                  data-dismiss="modal">Zamknij</button>
                                 </div>
 
                               </div>
@@ -102,8 +106,8 @@
             <!--Grid column-->
             <div class="col-md-6 text-center">
 
-                <h4 class="my-4 h4">Price plot</h4>
-                <p>Display of prices recorded since the game is in our database.</p>
+                <h4 class="my-4 h4">Wykres Cen</h4>
+                <p>Wyświetla ceny i daty zapisane w naszej bazie danych.</p>
 
             </div>
             <!--Grid column-->

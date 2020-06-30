@@ -144,7 +144,7 @@ def user_watched(request):
     context = {
         "items": titles
     }
-    return render(request, "home-page.html", context)
+    return render(request, "user.html", context)
 
 
 def user(request):
@@ -180,9 +180,17 @@ def object_specific_view(request, oid): # The url argument oid is automatically 
             print(entry_id)
             basket = BasketItem()
             item = Item.objects.get(item_id=entry_id)
-            basket.item_id = item
-            basket.user_id = request.user
-            basket.save()
+            num_results = BasketItem.objects.filter(item_id=item,user_id=request.user).count()
+            if num_results == 0:
+                basket.item_id = item
+                basket.user_id = request.user
+                basket.save()
+    if request.user.is_authenticated:
+        if request.GET.get("id2") != None:
+            entry_id = int(request.GET.get("id2"))
+            item = Item.objects.get(item_id=entry_id)
+            basket = BasketItem.objects.filter(item_id=item, user_id=request.user)
+            basket.delete()
     object = Item.objects.filter(item_id=oid).first()
     prices = ItemPrice.objects.filter(item_id_id=oid).all()
     price_list = []

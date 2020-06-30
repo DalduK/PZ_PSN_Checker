@@ -30,8 +30,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(template_name='logged-out.html')),
     path('register/', views.register, name='register'),
     path('items/', views.item_list, name='items'),
-    path('user/', views.user, name='user'),
+    path('user/', views.user_watched, name='useri'),
     url(r'^objects/(?P<oid>[0-9]+)/$', views.object_specific_view, name='objects'),
-    path('useri/', views.user_watched, name='useri'),
-
 ]

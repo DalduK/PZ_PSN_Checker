@@ -2,7 +2,103 @@
 {% extends request.user.is_authenticated|yesno:'loged_in_base.html,base.html' %}
 
 {% block content %}
-    <H1>{{ user.get_username }}</H1>
-    <H2>{{ user.email }}</H2>
+<div class="row d-flex justify-content-center">
+<!--/.Carousel Wrapper-->
+
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <H1>Nazwa użytkownika : {{ user.get_username }}</H1>
+                <H2>Email użytkownika : {{ user.email }}</H2>
+                <H2>Użytkownik dołączył : {{ user.date_joined }}</H2>
+            </div>
+    <hr>
+<!--Section: Products v.3-->
+            <section class="text-center mb-4">
+
+                <!--Grid row-->
+                <div class="row wow fadeIn">
+                    {% for item in items %}
+
+                        <!--Grid column-->
+                        <div class="col-lg-3 col-md-6 mb-4">
+
+                            <!--Card-->
+                            <div class="card" >
+
+                                <!--Card image-->
+                                <div class="view overlay">
+
+                                    <img src="{{ item.image }}" class="card-img-top"
+                                         alt="">
+                                    <a href="/objects/{{ item.item_id }}">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                                <!--Card image-->
+
+                                <!--Card content-->
+                                <div class="card-body text-center" style="height: 200px">
+                                    <!--Category & Title-->
+                                    <a href="/objects/{{ item.item_id }}" class="grey-text">
+                                        <h5>{{ item.platform }}</h5>
+                                    </a>
+                                    <h5>
+                                        <strong>
+                                            <a href="/objects/{{ item.item_id }}" class="dark-grey-text">{{ item.title }}
+                                                {% if item.age_rating < 12 %}
+                                                    <span class="badge badge-pill green">{{ item.age_rating }}</span>
+                                                {% elif item.age_rating > 16 %}
+                                                    <span class="badge badge-pill danger-color">{{ item.age_rating }}</span>
+                                                {% else %}
+                                                    <span class="badge badge-pill orange">{{ item.age_rating }}</span>
+                                                {% endif %}
+                                            </a>
+                                        </strong>
+                                    </h5>
+
+                                    <h4 class="font-weight-bold blue-text">
+                                        <strong>{{ item.price }} PLN</strong>
+                                    </h4>
+
+                                </div>
+                                <!--Card content-->
+
+                            </div>
+                            <!--Card-->
+                        </div>
+                        <!--Grid column-->
+                    {% endfor %}
+                </div>
+                {% if items.has_other_pages %}
+                <div class="row d-flex justify-content-center">
+                    <nav>
+                      <ul class="pagination pg-darkgrey">
+                        {% if items.has_previous %}
+                          <li class="page-item"><a class="page-link" aria-label="Previous" href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                          <li class="page-item"><a class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
+                        {% endif %}
+                        {% for i in items.paginator.page_range %}
+                          {% if items.number == i %}
+                            <li class="page-item active"><a class="page-link">{{ i }} </a></li>
+                          {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                          {% endif %}
+                        {% endfor %}
+                        {% if items.has_next %}
+                          <li class="page-item"><a class="page-link" aria-label="Next" href="?page={{ items.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                          <li class="page-item"><a class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
+                        {% endif %}
+                      </ul>
+                    </nav>
+                </div>
+                {% endif %}
+
+                <!--Grid row-->
+            </section>
+        </div>
+</div>
+            <!--Section: Products v.3-->
 {% endblock %}
 
