@@ -32,4 +32,5 @@ urlpatterns = [
     path('items/', views.item_list, name='items'),
     path('user/', views.user_watched, name='useri'),
     url(r'^objects/(?P<oid>[0-9]+)/$', views.object_specific_view, name='objects'),
+    url(r'^password/$', views.change_password, name='change_password'),
 ]
