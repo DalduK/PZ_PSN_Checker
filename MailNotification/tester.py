@@ -1,4 +1,4 @@
-from MailHandler import MailHandler
+from MailNotification.MailHandler import MailHandler
 
 mh = MailHandler(587, 'smtp.gmail.com', 'noreply.PSN.Checker@gmail.com', 'Psn12345')
 mh.sendInvitation('Anon', 'szachkonrad@op.pl')

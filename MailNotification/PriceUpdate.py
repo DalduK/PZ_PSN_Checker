@@ -1,13 +1,13 @@
 import sqlite3
 from datetime import date, datetime
-from MailHandler import MailHandler
+from MailNotification.MailHandler import MailHandler
 
 import requests
 
 def create_conn():
     conn = None
     try :
-        conn = sqlite3.connect('db.sqlite3')
+        conn = sqlite3.connect('/home/dldk/PycharmProjects/PZ_PSN_Checker/db.sqlite3')
     except sqlite3.Error as e:
         print(e)
     return conn
@@ -31,9 +31,7 @@ def update_values(conn):
         sql_insert = '''INSERT INTO app_itemprice(item_id_id,historical_price,date_fetched) values(?,?,?)'''
         cur = conn.cursor()
         now = datetime.now()
-        dt_string = now.strftime("%d-%m-%Y %H:%M:%S.%f")
-        print(dt_string)
-        cur.execute(sql_insert,(val[0],price,dt_string))
+        cur.execute(sql_insert,(val[0],price,now))
         conn.commit()
         cur = conn.cursor()
         sql_last_update = '''SELECT * from app_item WHERE item_id = ?'''
