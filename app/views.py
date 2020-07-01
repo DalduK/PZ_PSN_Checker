@@ -105,6 +105,9 @@ def add_item_from_url(request):
                 car.save()
             q = q[0]
             qp = ItemPrice.objects.filter(item_id__exact=q.item_id).order_by('-date_fetched')
+            car = Carousel()
+            car.image_url = data["mediaList"]["screenshots"][3]["url"]
+            car.save()
             if len(qp) > 0:
                 print(qp[0].date_fetched)
             if len(qp) == 0 or qp[0].date_fetched < datetime.utcnow():

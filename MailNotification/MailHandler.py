@@ -1,7 +1,7 @@
 import smtplib
 import ssl
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 class MailHandler:
@@ -39,25 +39,46 @@ class MailHandler:
 
     def sendInvitation(self, username, receiver_email):
         text, html = self.returnTemplateInvitation(username)
-        self.send(receiver_email, 'Welcome in PSN Checker app!', text, html)
+        self.send(receiver_email, 'Witaj w serwisie PSN Checker!', text, html)
 
     def sendDiscount(self, username, receiver_email, gameNames, prices, urls):
         text, html = self.returnTemplateDiscount(username, gameNames, prices, urls)
-        self.send(receiver_email, 'Your games are on sale!', text, html)
+        self.send(receiver_email, 'Gra w promocji!', text, html)
+
+    def sendChangedPassword(self, receiver_email, username, passwd):
+        text, html = self.returnTemplateChangedPassword(username, passwd)
+        self.send(receiver_email, 'Prośba o przypomnienie hasła', text, html)
+
+    def returnTemplateChangedPassword(self, username, passwd):
+        text = """\
+                Witaj {0},
+                wygenerowaliśmy dla Ciebie tymczasowe hasło, pamiętaj aby je zmienić zaraz po zalogowaniu!
+                Nowe hasło: {1}""".format(username, passwd)
+        html = """\
+                        <html>
+                          <body>
+                            <p>Witaj {0},<br>
+                                wygenerowaliśmy dla Ciebie tymczasowe hasło, pamiętaj aby je zmienić zaraz po zalogowaniu!
+                                Nowe hasło: {1}
+                            </p>
+                          </body>
+                        </html>
+                        """.format(username, passwd)
+        return text, html
 
     def returnTemplateInvitation(self, username):
         text = """\
-                Hi {0},
-                Welcome in PSN Checker app!
-                To set your account preferences visit:
+                Witaj {0},
+                dziękujemy za rejestrację w serwisie PSN Checker!
+                W celu ustawienia preferencji konta odwiedź poniższy adres:
                 psnchecker.com""".format(username)
         html = """\
                 <html>
                   <body>
-                    <p>Hi {0},<br>
-                       Welcome in PSN Checker app!<br>
-                       Click <a href="psnchecker.com">here</a> 
-                       to set your basket.
+                    <p>Witaj {0},<br>
+                       dziekujemy za rejestrację w serwisie PSN Checker!<br>
+                       Odwiedź <a href="psnchecker.com">tutaj</a> 
+                       aby sprawdzić swój koszyk.
                     </p>
                   </body>
                 </html>
@@ -71,8 +92,8 @@ class MailHandler:
                 textTmp = textTmp + gameNames[i] + "\t" + str(prices[i]) + "zł\n"
 
             text = """\
-                            Hi {0},
-                            PSN Checker found game discounts for you:
+                            Witaj {0},
+                            gra, którą obserwujesz jest teraz przeceniona:
                             {1}""".format(username, textTmp)
 
             htmlTmp = '<br><br>'
@@ -81,8 +102,8 @@ class MailHandler:
             html = """\
                             <html>
                               <body>
-                                <p>Hi {0},<br>
-                                   PSN Checker found game discounts for you:<br>
+                                <p>Witaj {0},<br>
+                                   gra, którą obserwujewsz jest teraz w przecenie:<br>
                                    {1}
                                 </p>
                               </body>
